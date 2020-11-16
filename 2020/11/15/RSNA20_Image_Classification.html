@@ -112,17 +112,33 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="https://colab.research.google.com/github/wfwiggins/RSNA-Image-AI-2020/blob/master/RSNA20_Image_Classification.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a></p>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">&gt;</span> <span class="s2">&quot;A code-optional introduction to radiologic image classification with deep learning.&quot;</span>
+
+<span class="o">-</span> <span class="n">toc</span><span class="p">:</span> <span class="n">true</span>
+<span class="o">-</span> <span class="n">branch</span><span class="p">:</span> <span class="n">master</span>
+<span class="o">-</span> <span class="n">badges</span><span class="p">:</span> <span class="n">true</span>
+<span class="o">-</span> <span class="n">categories</span><span class="p">:</span> <span class="p">[</span><span class="n">image</span><span class="o">-</span><span class="n">classification</span><span class="p">,</span> <span class="n">tutorial</span><span class="p">]</span>
+<span class="o">-</span> <span class="n">sticky_rank</span><span class="p">:</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
 
 </div>
-</div>
-</div>
+    
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="https://github.com/wfwiggins/RSNA-Image-AI-2020/blob/master/images/RSNA-2020-logo-with-dates.gif?raw=true" alt="RSNA logo" /></p>
-<h1 id="RSNA-2020:-Interactive-AI-for-Non-coders"><strong>RSNA 2020: Interactive AI for Non-coders</strong><a class="anchor-link" href="#RSNA-2020:-Interactive-AI-for-Non-coders"> </a></h1><h2 id="Image-Classification-Basics-for-Beginners"><strong>Image Classification Basics for Beginners</strong><a class="anchor-link" href="#Image-Classification-Basics-for-Beginners"> </a></h2><p>In this demonstration, we will utilize techniques of <em>computer vision</em>, including deep <em>convolutional neural networks</em> (CNNs), to train an image classifier model capable of classifying radiographs as either <strong>chest</strong> or <strong>abdominal</strong>.</p>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction"> </a></h2><p>In this demonstration, we will utilize techniques of <em>computer vision</em>, including deep <em>convolutional neural networks</em> (CNNs), to train an image classifier model capable of classifying radiographs as either <strong>chest</strong> or <strong>abdominal</strong>.</p>
 <h3 id="Code">Code<a class="anchor-link" href="#Code"> </a></h3><p>We will utilize the <a href="https://docs.fast.ai/">fast.ai v2 library</a>, written primarily by Jeremy Howard and Sylvain Gugger (with help from many others). It is written in the <a href="https://www.python.org/">Python programming language</a> and built on top of the <a href="https://www.pytorch.org/">PyTorch deep learning library</a>.</p>
 <p>The demonstration in this notebook relies heavily on examples from the <code>fast.ai</code> book, <em>Deep Learning for Coders with fastai and PyTorch: AI Applications without a PhD</em> by Jeremy Howard and Sylvain Gugger, which was written entirely in Jupyter notebooks, which are <a href="https://github.com/fastai/fastbook">freely available for download on GitHub</a>. A print copy of the book can be purchased from Amazon.</p>
 <h3 id="Data">Data<a class="anchor-link" href="#Data"> </a></h3><p>This work is adapted from "<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5959832/">Hello World Deep Learning in Medical Imaging</a>" (full reference below). The chest and abdominal radiographs were obtained from <a href="https://github.com/paras42/Hello_World_Deep_Learning/tree/9921a12c905c00a88898121d5dc538e3b524e520">Paras Lakhani's GitHub repository</a>.</p>
@@ -148,11 +164,14 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown Running this cell will install the necessary libraries, download the data and restart the session.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title **Setting up the runtime environment...**</span>
+<span class="c1">#@markdown Running this cell will install the necessary libraries, download the data and restart the session.</span>
 <span class="c1">#@markdown This will generate an error message, which we can safely ignore 😉.</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -173,7 +192,8 @@ window.onload = wrap_img;
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 </div>
     
 
@@ -187,11 +207,15 @@ window.onload = wrap_img;
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastai.basics</span> <span class="kn">import</span> <span class="o">*</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title Directory structure</span>
+
+<span class="kn">from</span> <span class="nn">fastai.basics</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">fastai.vision.all</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -207,7 +231,8 @@ window.onload = wrap_img;
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -270,11 +295,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown When you run this cell, a batch of data will be shown with or without augmentation transforms applied.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title Load the data into `ImageDataLoaders` with data augmentation</span>
+
+<span class="c1">#@markdown When you run this cell, a batch of data will be shown with or without augmentation transforms applied.</span>
 
 <span class="c1">#@markdown &gt; 1. Run this cell once with the box next to `apply_transforms` unchecked to see a sample of the original images.</span>
 <span class="c1">#@markdown &gt; 2. Next, run the cell a few more times after checking the box next to `apply_transforms` to see what happens to the images when the transforms are applied.</span>
@@ -305,7 +334,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -329,11 +359,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown The learning rate is a hyperparameter that controls how much your model adjusts in response to percieved error after each training epoch. Choosing an optimal learning rate is an optimal step in model training.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title Find the optimal learning rate</span>
+
+<span class="c1">#@markdown The learning rate is a hyperparameter that controls how much your model adjusts in response to percieved error after each training epoch. Choosing an optimal learning rate is an optimal step in model training.</span>
 
 <span class="c1">#@markdown From the `fastai` [docs](https://docs.fast.ai/callback.schedule#Learner.lr_find):</span>
 <span class="c1">#@markdown &gt; First introduced by Leslie N. Smith in [Cyclical Learning Rates for Training Neural Networks](https://arxiv.org/pdf/1506.01186.pdf), the `LRFinder` trains the model with exponentially growing learning rates and stops in case of divergence.</span>
@@ -352,7 +386,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -397,11 +432,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown First, choose the number of epochs for which you will train your model.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title Fine-tune the model</span>
+
+<span class="c1">#@markdown First, choose the number of epochs for which you will train your model.</span>
 <span class="c1">#@markdown Then, choose a base learning rate based on the results in the `LRFinder` plot above.</span>
 
 <span class="c1">#@markdown Finally, run the cell to train the model.</span>
@@ -417,7 +456,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -514,11 +554,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown The visual representation of the training and validation losses are useful to evaluate how successfully you were able to train your model.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title Review training curves</span>
+
+<span class="c1">#@markdown The visual representation of the training and validation losses are useful to evaluate how successfully you were able to train your model.</span>
 
 <span class="n">learn</span><span class="o">.</span><span class="n">recorder</span><span class="o">.</span><span class="n">plot_loss</span><span class="p">()</span>
 </pre></div>
@@ -526,7 +570,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -556,11 +601,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown When you run this cell, the first line shows the groundtruth for whether the radiograph is of the chest or abdomen.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title **Test the model on the test dataset**</span>
+
+<span class="c1">#@markdown When you run this cell, the first line shows the groundtruth for whether the radiograph is of the chest or abdomen.</span>
 <span class="c1">#@markdown The second line is the model prediction for whether the image ia a chest or abdominal radiograph.</span>
 
 <span class="c1"># !mkdir data/test/abd</span>
@@ -576,7 +625,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -609,11 +659,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown Running this cell will provide us with the loss on each image, as well as the model&#39;s predicted probability, which can be thought of as the model&#39;s confidence in its prediction.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title **A little more detail on the predictions**</span>
+
+<span class="c1">#@markdown Running this cell will provide us with the loss on each image, as well as the model&#39;s predicted probability, which can be thought of as the model&#39;s confidence in its prediction.</span>
 <span class="c1">#@markdown If the model is completely confident, the loss will be &quot;0.00&quot; and the probability will be &quot;1.00&quot;.</span>
 
 <span class="n">interp</span> <span class="o">=</span> <span class="n">ClassificationInterpretation</span><span class="o">.</span><span class="n">from_learner</span><span class="p">(</span><span class="n">learn</span><span class="p">,</span> <span class="n">dl</span><span class="o">=</span><span class="n">test_dl</span><span class="p">)</span>
@@ -623,7 +677,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -656,11 +711,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown Here, we present the model with an unexpected image and see how it responds. </span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title **Test the model on a surprise example**</span>
+
+<span class="c1">#@markdown Here, we present the model with an unexpected image and see how it responds. </span>
 
 <span class="n">y</span> <span class="o">=</span> <span class="n">get_image_files</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">recurse</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">test_dl</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">dls</span><span class="o">.</span><span class="n">test_dl</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -676,7 +735,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -727,11 +787,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown CAM allows one to visualize which regions of the original image are heavily weighted in the prediction of the corresponding class. </span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title **Class activation map (CAM)**</span>
+
+<span class="c1">#@markdown CAM allows one to visualize which regions of the original image are heavily weighted in the prediction of the corresponding class. </span>
 <span class="c1">#@markdown This technique provides a visualization of the activations in the **final** _convolutional_ block of a Convolutional Neural Network (CNN).</span>
 
 <span class="c1">#@markdown CAM is also useful to determine if the model is &quot;cheating&quot; and looking somewhere it shouldn&#39;t be to make its prediction (i.e. radioopaque markers placed by the technologist).</span>
@@ -761,7 +825,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -785,11 +850,15 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@markdown Gradient-weighted CAM (Grad-CAM) allows us to visualize the output from _any convolutional block_ in a CNN.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#@title **Grad-CAM**</span>
+
+<span class="c1">#@markdown Gradient-weighted CAM (Grad-CAM) allows us to visualize the output from _any convolutional block_ in a CNN.</span>
 
 <span class="c1">#@markdown By default, this cell is setup to show the Grad-CAM output from the final convolutional block in the CNN, for comparison to the CAM output.</span>
 
@@ -830,7 +899,8 @@ chst0.png  chst1.png  chst2.png  chst3.png  chst4.png
     </div>
 </div>
 </div>
-
+</p>
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
