@@ -1,1 +1,1 @@
-Sitemap: https://wfwiggins.github.io/rad-ml-tutor/sitemap.xml
+Sitemap: https://radml.wfwiggins.com/sitemap.xml
